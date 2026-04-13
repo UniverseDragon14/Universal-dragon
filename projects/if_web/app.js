@@ -1,0 +1,1 @@
+console.log('🚀 if initialized by NOVA3');
