@@ -1,94 +1,47 @@
-# Universal Dragon
+# Universal Dragon — Local NOVA3 Prototype
 
-Creator: Aslam  
-Project Family: Universal Dragon  
-Core Systems: NOVA / EVE / UDOS / Dragon Eye / Universal Dragon Studio  
-GitHub: https://github.com/UniverseDragon14  
-Public Website: https://universedragon14.github.io/
+Local Python assistant and voice-control experiments for Linux/Raspberry Pi environments.
 
-## Purpose
+## Repository map
 
-Universal Dragon is the larger project base for Aslam's AI, robotics, Raspberry Pi, automation, web, and system-design work.
+| Path | Current role |
+|---|---|
+| dragon_terminal.py | interactive terminal, speech output, browser shortcuts, and command dispatch |
+| core/brain.py | local Ollama/Gemini chat routing and small project generation |
+| nova_voice.py | voice-facing NOVA launcher |
+| voice_listen.py | offline Vosk audio transcription |
+| wake_listener.py | Porcupine wake-word listener |
+| launcher.sh / nova3_launcher.sh | local launch helpers |
+| nova3_guard.sh | process guard/restart helper |
+| models/vosk-en | bundled offline English speech model |
+| projects | generated/example web and Python projects |
 
-This repository is for public-safe project overview, roadmap notes, architecture direction, frontend demos, and links to related Universal Dragon repositories.
+## AI routing
 
-## Ecosystem
+The brain prefers configured Gemini access when available and otherwise calls a local Ollama server using the configured local model path. These are software model integrations; no physical QPU is involved.
 
-```text
-Universal Dragon
-   ├── NOVA Guardian Core      → Project One
-   ├── Universal Dragon Studio → Project Two
-   ├── Dragon Eye              → Project Three
-   ├── UDOS                    → assistant-based control layer
-   └── EVE                     → companion interface / web UI / terminal layer
-```
+## Basic start
 
-## Project One — NOVA Guardian Core
+~~~bash
+python3 -m venv .venv
+. .venv/bin/activate
+pip install requests vosk pvporcupine pvrecorder
+python3 dragon_terminal.py
+~~~
 
-Stable brain-first base for approval, backup, validation, rollback, events, errors, and learning.
+Voice features also require suitable audio packages/devices and optional espeak-ng.
 
-## Project Two — Universal Dragon Studio
+## Important current limitations
 
-Creator tools direction for websites, apps, automation, video/photo workflows, long-video to shorts planning, captions, titles, descriptions, and thumbnails.
+- The terminal includes an unrestricted run command and shell-built open/search commands. Use only on a trusted local machine; do not expose it as a network service.
+- Project names are not fully path-sanitized before file creation.
+- Audio device/model configuration is machine-specific.
+- The current speech function references the wrong variable name when calling espeak-ng, so spoken output needs a code fix.
+- Wake-word access needs a valid locally supplied provider key.
+- Generated project files are templates, not automatically reviewed production applications.
 
-## Project Three — Dragon Eye
+## Pi and hardware truth boundary
 
-Future vision layer for camera experiments, image understanding, OpenCV work, and robotics perception later.
+This repository can run software on a Raspberry Pi and use configured audio devices. It does not prove that every Pi service, GPIO device, camera, robot, or external integration is connected or active.
 
-## UDOS
-
-Assistant-based control layer above tools, apps, files, services, and devices.
-
-Core phrase:
-
-```text
-Phone is not app-based.
-Phone is assistant-based.
-```
-
-## Build Rules
-
-1. Do not restart from zero unnecessarily.
-2. Complete small useful projects first.
-3. Backup before important edits.
-4. Add rollback capability where possible.
-5. Keep public files clean and safe.
-6. Inspect and classify repositories before deleting anything.
-7. Archive before delete.
-
-## Daily Build Rule
-
-```text
-1. Check current system
-2. Pick one small task
-3. Backup
-4. Build
-5. Test
-6. Save result
-7. Write log
-```
-
-## Completed Cleanup
-
-- `UniverseDragon14.github.io`
-- `studio-site`
-- `nova-intelligence-core`
-- `Universal-Dragon-Core`
-
-## Next Cleanup Targets
-
-- inspect larger `Universal-dragon` files
-- clean `nova-agi-core-backend` wording
-- inspect `eve-app-builder`
-- inspect `universal-dragon-eye`
-- classify empty or duplicate repos for archive later
-
-## Status
-
-Status: larger Universal Dragon base active  
-Mode: public-safe project overview  
-Direction: brain-first, practical, safe, step-by-step
-
-## Keywords
-
-Universal Dragon, Universal Dragon Aslam, Aslam, NOVA, EVE, UDOS, Dragon Eye, Universal Dragon Studio, NOVA Guardian Core, AI, robotics, Raspberry Pi, automation, assistant-based phone, system design, Abu Dhabi UAE.
+Before wider use, replace shell-string execution with fixed argument allowlists, validate project paths, add an approval gate, and test recovery/rollback.
